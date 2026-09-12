@@ -1,0 +1,92 @@
+/* ==========================================================================
+   ATHAR | أثر - Modern RTL Stylesheet
+   ========================================================================== */
+
+/* Color Variables & Base Properties */
+:root {
+    --primary-teal: #0d9488;
+    --primary-teal-dark: #0f766e;
+    --primary-teal-light: #ccfbf1;
+    --bg-light: #f8fafc;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    direction: rtl;
+    text-align: right;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Custom Color Utilities */
+.bg-teal {
+    background-color: var(--primary-teal) !important;
+}
+
+.text-teal {
+    color: var(--primary-teal) !important;
+}
+
+.btn-teal {
+    background-color: var(--primary-teal);
+    color: #ffffff;
+    border: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-teal:hover, .btn-teal:focus, .btn-teal:active {
+    background-color: var(--primary-teal-dark) !important;
+    color: #ffffff !important;
+}
+
+.bg-light-success {
+    background-color: #f0fdf4 !important;
+    border: 1px solid #bbf7d0 !important;
+}
+
+/* Layout & Page Section Transitions */
+.page-section {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Customizations */
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-teal);
+    box-shadow: 0 0 0 0.25rem rgba(13, 148, 136, 0.25);
+}
+
+/* Cards & UI Elements */
+.card {
+    border-radius: 12px;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+/* Mobile Friendly Touch Optimizations */
+button, .btn {
+    touch-action: manipulation;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
