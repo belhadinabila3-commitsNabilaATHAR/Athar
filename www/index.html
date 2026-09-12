@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>أثر | ATHAR</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-dark bg-teal shadow-sm sticky-top">
+        <div class="container-fluid px-3">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#">
+                <i class="fa-solid fa-hands-holding-circle fs-4"></i>
+                <span>أثر | ATHAR</span>
+            </a>
+            <div id="user-info-header" class="d-flex align-items-center gap-2 text-white" style="display: none !important;">
+                <span id="user-name-display" class="fw-semibold small"></span>
+                <button id="btn-logout" class="btn btn-sm btn-outline-light border-0">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- App Main Container -->
+    <main class="container my-4 px-3" style="max-width: 600px;">
+
+        <!-- 1. Login Section -->
+        <section id="login-section" class="page-section">
+            <div class="card border-0 shadow-sm p-4">
+                <div class="text-center mb-4">
+                    <div class="avatar-icon bg-teal text-white mx-auto mb-3 rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                        <i class="fa-solid fa-shield-heart fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold">تسجيل الدخول</h4>
+                    <p class="text-muted small">منصة قياس الأثر الحقيقي للعمل التطوعي</p>
+                </div>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="example@domain.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">رمز الـ PIN (4 أرقام)</label>
+                        <input type="password" id="login-pin" class="form-control text-center fs-5" maxlength="4" pattern="\d{4}" placeholder="••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-teal w-100 py-2 fw-bold">دخول</button>
+                </form>
+                <hr class="my-4">
+                <div class="text-center">
+                    <span class="text-muted small">ليس لديك حساب؟</span>
+                    <button class="btn btn-link p-0 text-teal fw-bold small me-1" onclick="showSection('register-section')">إنشاء حساب جديد</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Register Section -->
+        <section id="register-section" class="page-section" style="display: none;">
+            <div class="card border-0 shadow-sm p-4">
+                <div class="text-center mb-4">
+                    <h4 class="fw-bold">حساب متطوع جديد</h4>
+                    <p class="text-muted small">انضم لشبكة صُنّاع الأثر المجتمعي</p>
+                </div>
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label class="form-label">الاسم الكامل</label>
+                        <input type="text" id="reg-name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" id="reg-email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">الصفة / المنصب</label>
+                        <input type="text" id="reg-role" class="form-control" placeholder="مثال: رئيس جمعية / متطوع">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">نبذة عنك</label>
+                        <textarea id="reg-bio" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">رمز الـ PIN الخاص بك (4 أرقام)</label>
+                        <input type="password" id="reg-pin" class="form-control text-center fs-5" maxlength="4" pattern="\d{4}" placeholder="••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-teal w-100 py-2 fw-bold">إنشاء الحساب</button>
+                </form>
+                <div class="text-center mt-3">
+                    <button class="btn btn-link text-secondary p-0 small" onclick="showSection('login-section')">العودة لتسجيل الدخول</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Dashboard Section -->
+        <section id="dashboard-section" class="page-section" style="display: none;">
+            
+            <!-- User Impact Card -->
+            <div class="card border-0 shadow-sm bg-teal text-white p-4 mb-4 rounded-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h5 id="user-role-display" class="small opacity-75 mb-1"></h5>
+                        <h3 id="user-name-display" class="fw-bold mb-0"></h3>
+                    </div>
+                    <div class="text-end">
+                        <span class="d-block small opacity-75">Impact Score</span>
+                        <span id="impact-score-display" class="fs-1 fw-bolder">0</span>
+                    </div>
+                </div>
+                <button class="btn btn-light text-teal fw-bold w-100 rounded-3 mt-2" onclick="showSection('add-activity-section')">
+                    <i class="fa-solid fa-plus me-1"></i> إمكانية إضافة نشاط جديد
+                </button>
+            </div>
+
+            <!-- Badges Section -->
+            <div class="mb-4">
+                <h6 class="fw-bold mb-3"><i class="fa-solid fa-award text-teal me-1"></i> الشارات والأوسمة</h6>
+                <div id="badges-list" class="row g-2"></div>
+            </div>
+
+            <!-- Activities Section -->
+            <div>
+                <h6 class="fw-bold mb-3"><i class="fa-solid fa-list-check text-teal me-1"></i> أنشطتي التطوعية</h6>
+                <div id="activities-list"></div>
+            </div>
+        </section>
+
+        <!-- 4. Add Activity Section -->
+        <section id="add-activity-section" class="page-section" style="display: none;">
+            <div class="card border-0 shadow-sm p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold m-0">إضافة نشاط تطوعي</h5>
+                    <button class="btn-close" onclick="showSection('dashboard-section')"></button>
+                </div>
+                <form id="add-activity-form">
+                    <div class="mb-3">
+                        <label class="form-label">عنوان النشاط</label>
+                        <input type="text" id="act-title" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">المجال</label>
+                        <select id="act-category" class="form-select" required>
+                            <option value="سياحة وبيئة">سياحة وبيئة</option>
+                            <option value="خدمة مجتمعية">خدمة مجتمعية</option>
+                            <option value="تعليم وتدريب">تعليم وتدريب</option>
+                            <option value="ثقافة وفنون">ثقافة وفنون</option>
+                        </select>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label">عدد الساعات</label>
+                            <input type="number" id="act-hours" class="form-control" min="1" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">عدد المشاركين</label>
+                            <input type="number" id="act-participants" class="form-control" min="1" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">الموقع / الولاية</label>
+                        <input type="text" id="act-location" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-teal w-100 py-2 fw-bold">تسجيل النشاط وإحساب الأثر</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bootstrap & App Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
