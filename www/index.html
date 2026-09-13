@@ -2,178 +2,539 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>أثر | ATHAR</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
-    <!-- Font Awesome Icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أثر - ATHAR | منصة العمل التطوعي للشباب</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom Style -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10B981', // Emerald Green
+                        secondary: '#059669',
+                        darkBg: '#0F172A',
+                        cardBg: '#1E293B',
+                        accent: '#34D399'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .hide { display: none !important; }
+    </style>
 </head>
-<body class="bg-light">
+<body class="bg-darkBg text-gray-100 min-h-screen flex flex-col">
 
-    <!-- Header / Navbar -->
-    <nav class="navbar navbar-dark bg-teal shadow-sm sticky-top">
-        <div class="container-fluid px-3">
-            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#">
-                <i class="fa-solid fa-hands-holding-circle fs-4"></i>
-                <span>أثر | ATHAR</span>
-            </a>
-            <div id="user-info-header" class="d-flex align-items-center gap-2 text-white" style="display: none !important;">
-                <span id="user-name-display" class="fw-semibold small"></span>
-                <button id="btn-logout" class="btn btn-sm btn-outline-light border-0">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </button>
+    <!-- ================= AUTH SECTION ================= -->
+    <div id="authSection" class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-cardBg p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-700">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-primary/20 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl font-bold">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold text-white">تطبيق أثر</h1>
+                <p class="text-gray-400 text-sm mt-1">اصنع فرقاً، واترك أثراً في مجتمعك</p>
             </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">الاسم الكامل</label>
+                    <input type="text" id="loginName" required placeholder="أدخل اسمك الكريم" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">رمز الدخول (PIN - 4 أرقام)</label>
+                    <input type="password" id="loginPin" maxlength="4" required placeholder="****" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white text-center tracking-widest text-xl">
+                </div>
+                <button type="submit" class="w-full py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition duration-300 shadow-lg shadow-primary/30">
+                    تسجيل الدخول / إنشاء حساب
+                </button>
+            </form>
         </div>
-    </nav>
+    </div>
 
-    <!-- App Main Container -->
-    <main class="container my-4 px-3" style="max-width: 600px;">
-
-        <!-- 1. Login Section -->
-        <section id="login-section" class="page-section">
-            <div class="card border-0 shadow-sm p-4">
-                <div class="text-center mb-4">
-                    <div class="avatar-icon bg-teal text-white mx-auto mb-3 rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
-                        <i class="fa-solid fa-shield-heart fs-2"></i>
+    <!-- ================= APP DASHBOARD SECTION ================= -->
+    <div id="appSection" class="hide flex-grow flex flex-col">
+        <!-- Top Navigation -->
+        <header class="bg-cardBg border-b border-gray-800 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="w-10 h-10 bg-primary/20 text-primary rounded-xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-seedling"></i>
                     </div>
-                    <h4 class="fw-bold">تسجيل الدخول</h4>
-                    <p class="text-muted small">منصة قياس الأثر الحقيقي للعمل التطوعي</p>
+                    <span class="text-xl font-extrabold text-white">أثر <span class="text-xs text-primary font-normal bg-primary/10 px-2 py-1 rounded-full">نسخة التحكيم</span></span>
                 </div>
-                <form id="login-form">
-                    <div class="mb-3">
-                        <label class="form-label">البريد الإلكتروني</label>
-                        <input type="email" id="login-email" class="form-control" placeholder="example@domain.com" required>
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <div class="text-left hidden sm:block">
+                        <div id="navUserName" class="text-sm font-bold text-white">اسم المستخدم</div>
+                        <div class="text-xs text-primary font-semibold"><span id="navUserPoints">0</span> نقطة</div>
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label">رمز الـ PIN (4 أرقام)</label>
-                        <input type="password" id="login-pin" class="form-control text-center fs-5" maxlength="4" pattern="\d{4}" placeholder="••••" required>
-                    </div>
-                    <button type="submit" class="btn btn-teal w-100 py-2 fw-bold">دخول</button>
-                </form>
-                <hr class="my-4">
-                <div class="text-center">
-                    <span class="text-muted small">ليس لديك حساب؟</span>
-                    <button class="btn btn-link p-0 text-teal fw-bold small me-1" onclick="showSection('register-section')">إنشاء حساب جديد</button>
+                    <button onclick="handleLogout()" class="px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> خروج
+                    </button>
                 </div>
             </div>
-        </section>
+        </header>
 
-        <!-- 2. Register Section -->
-        <section id="register-section" class="page-section" style="display: none;">
-            <div class="card border-0 shadow-sm p-4">
-                <div class="text-center mb-4">
-                    <h4 class="fw-bold">حساب متطوع جديد</h4>
-                    <p class="text-muted small">انضم لشبكة صُنّاع الأثر المجتمعي</p>
-                </div>
-                <form id="register-form">
-                    <div class="mb-3">
-                        <label class="form-label">الاسم الكامل</label>
-                        <input type="text" id="reg-name" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">البريد الإلكتروني</label>
-                        <input type="email" id="reg-email" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">الصفة / المنصب</label>
-                        <input type="text" id="reg-role" class="form-control" placeholder="مثال: رئيس جمعية / متطوع">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">نبذة عنك</label>
-                        <textarea id="reg-bio" class="form-control" rows="2"></textarea>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">رمز الـ PIN الخاص بك (4 أرقام)</label>
-                        <input type="password" id="reg-pin" class="form-control text-center fs-5" maxlength="4" pattern="\d{4}" placeholder="••••" required>
-                    </div>
-                    <button type="submit" class="btn btn-teal w-100 py-2 fw-bold">إنشاء الحساب</button>
-                </form>
-                <div class="text-center mt-3">
-                    <button class="btn btn-link text-secondary p-0 small" onclick="showSection('login-section')">العودة لتسجيل الدخول</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Dashboard Section -->
-        <section id="dashboard-section" class="page-section" style="display: none;">
+        <!-- Main Content Area -->
+        <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 pb-24">
             
-            <!-- User Impact Card -->
-            <div class="card border-0 shadow-sm bg-teal text-white p-4 mb-4 rounded-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+            <!-- Tab 1: Home / Dashboard -->
+            <div id="tabHome" class="space-y-6">
+                <!-- Welcome Banner -->
+                <div class="bg-gradient-to-r from-primary/20 to-secondary/10 border border-primary/30 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
-                        <h5 id="user-role-display" class="small opacity-75 mb-1"></h5>
-                        <h3 id="user-name-display" class="fw-bold mb-0"></h3>
+                        <h2 class="text-2xl font-bold text-white mb-1">أهلاً بك، <span id="welcomeName" class="text-primary"></span>! 👋</h2>
+                        <p class="text-gray-300 text-sm">كل ساعة تطوع تقدمها تساهم في بناء مجتمع أفضل. استمر في العطاء!</p>
                     </div>
-                    <div class="text-end">
-                        <span class="d-block small opacity-75">Impact Score</span>
-                        <span id="impact-score-display" class="fs-1 fw-bolder">0</span>
+                    <button onclick="switchTab('activities')" class="px-5 py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/20 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle"></i> إضافة نشاط تطوعي جديد
+                    </button>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-cardBg p-5 rounded-2xl border border-gray-800 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <div class="text-gray-400 text-xs font-medium">ساعات التطوع</div>
+                            <div id="statHours" class="text-2xl font-extrabold text-white mt-1">0</div>
+                        </div>
+                    </div>
+                    <div class="bg-cardBg p-5 rounded-2xl border border-gray-800 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-primary/20 text-primary rounded-xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <div class="text-gray-400 text-xs font-medium">إجمالي النقاط</div>
+                            <div id="statPoints" class="text-2xl font-extrabold text-white mt-1">0</div>
+                        </div>
+                    </div>
+                    <div class="bg-cardBg p-5 rounded-2xl border border-gray-800 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                            <div class="text-gray-400 text-xs font-medium">إجمالي المشاركين المؤثرين</div>
+                            <div id="statParticipants" class="text-2xl font-extrabold text-white mt-1">0</div>
+                        </div>
+                    </div>
+                    <div class="bg-cardBg p-5 rounded-2xl border border-gray-800 flex items-center gap-4">
+                        <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-medal"></i>
+                        </div>
+                        <div>
+                            <div class="text-gray-400 text-xs font-medium">المستوى الحالي</div>
+                            <div id="statLevel" class="text-xl font-extrabold text-white mt-1">مبتدئ</div>
+                        </div>
                     </div>
                 </div>
-                <button class="btn btn-light text-teal fw-bold w-100 rounded-3 mt-2" onclick="showSection('add-activity-section')">
-                    <i class="fa-solid fa-plus me-1"></i> إمكانية إضافة نشاط جديد
+
+                <!-- Level & Progress Bar -->
+                <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-chart-line text-primary"></i> التقدم نحو المستوى التالي</span>
+                        <span id="levelProgressText" class="text-xs text-primary font-bold">0 / 100 نقطة</span>
+                    </div>
+                    <div class="w-full bg-gray-900 h-3 rounded-full overflow-hidden">
+                        <div id="levelProgressBar" class="bg-primary h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities Section -->
+                <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-lg text-white flex items-center gap-2"><i class="fa-solid fa-list-check text-primary"></i> آخر النشاطات المسجلة</h3>
+                        <button onclick="switchTab('activities')" class="text-xs text-primary hover:underline font-bold">عرض الكل</button>
+                    </div>
+                    <div id="recentActivitiesList" class="space-y-3">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Activities Management -->
+            <div id="tabActivities" class="hide space-y-6">
+                <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-plus text-primary"></i> إضافة نشاط تطوعي جديد</h3>
+                    <form id="activityForm" onsubmit="handleAddActivity(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">اسم النشاط أو المبادرة</label>
+                            <input type="text" id="actTitle" required placeholder="مثال: حملة تنظيف الشاطئ" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">تاريخ النشاط</label>
+                            <input type="date" id="actDate" required class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">عدد ساعات التطوع</label>
+                            <input type="number" id="actHours" min="1" required placeholder="مثال: 4" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-1">عدد المشاركين في النشاط</label>
+                            <input type="number" id="actParticipants" min="1" required placeholder="مثال: 12" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="w-full py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/20">
+                                <i class="fa-solid fa-check ml-2"></i> حفظ النشاط (حساب النقاط تلقائياً)
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Activities List -->
+                <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-folder-open text-primary"></i> سجل النشاطات الكامل</h3>
+                    <div id="fullActivitiesList" class="space-y-3">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Badges & Achievements -->
+            <div id="tabBadges" class="hide space-y-6">
+                <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
+                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-medal text-primary"></i> الشارات والأوسمة الإنجازية</h3>
+                    <p class="text-gray-400 text-sm mb-6">اكسب الشارات تلقائياً بناءً على عدد ساعاتك ونشاطاتك المنجزة.</p>
+                    
+                    <div id="badgesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Profile -->
+            <div id="tabProfile" class="hide space-y-6">
+                <div class="bg-cardBg p-8 rounded-2xl border border-gray-800 text-center max-w-lg mx-auto">
+                    <div class="w-24 h-24 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-4 text-4xl font-bold border-2 border-primary">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h2 id="profileName" class="text-2xl font-bold text-white">اسم المستخدم</h2>
+                    <p class="text-gray-400 text-sm mt-1">عضو متطوع في منصة أثر</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-700 text-right">
+                        <div class="bg-gray-900 p-4 rounded-xl">
+                            <div class="text-gray-400 text-xs">مجموع النقاط</div>
+                            <div id="profilePoints" class="text-xl font-bold text-primary mt-1">0</div>
+                        </div>
+                        <div class="bg-gray-900 p-4 rounded-xl">
+                            <div class="text-gray-400 text-xs">ساعات الإنجاز</div>
+                            <div id="profileHours" class="text-xl font-bold text-blue-400 mt-1">0</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="handleLogout()" class="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 font-bold rounded-xl transition border border-red-500/20">
+                            تسجيل الخروج من الحساب
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation Bar for Mobile & Desktop -->
+        <nav class="bg-cardBg border-t border-gray-800 fixed bottom-0 left-0 right-0 z-50">
+            <div class="max-w-md mx-auto flex justify-around py-3">
+                <button onclick="switchTab('home')" id="navHome" class="flex flex-col items-center text-primary transition">
+                    <i class="fa-solid fa-house text-xl mb-1"></i>
+                    <span class="text-xs font-bold">الرئيسية</span>
+                </button>
+                <button onclick="switchTab('activities')" id="navActivities" class="flex flex-col items-center text-gray-400 hover:text-primary transition">
+                    <i class="fa-solid fa-calendar-plus text-xl mb-1"></i>
+                    <span class="text-xs font-bold">النشاطات</span>
+                </button>
+                <button onclick="switchTab('badges')" id="navBadges" class="flex flex-col items-center text-gray-400 hover:text-primary transition">
+                    <i class="fa-solid fa-award text-xl mb-1"></i>
+                    <span class="text-xs font-bold">الشارات</span>
+                </button>
+                <button onclick="switchTab('profile')" id="navProfile" class="flex flex-col items-center text-gray-400 hover:text-primary transition">
+                    <i class="fa-solid fa-user text-xl mb-1"></i>
+                    <span class="text-xs font-bold">حسابي</span>
                 </button>
             </div>
+        </nav>
+    </div>
 
-            <!-- Badges Section -->
-            <div class="mb-4">
-                <h6 class="fw-bold mb-3"><i class="fa-solid fa-award text-teal me-1"></i> الشارات والأوسمة</h6>
-                <div id="badges-list" class="row g-2"></div>
-            </div>
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        let currentUser = JSON.parse(localStorage.getItem('athar_current_user')) || null;
 
-            <!-- Activities Section -->
-            <div>
-                <h6 class="fw-bold mb-3"><i class="fa-solid fa-list-check text-teal me-1"></i> أنشطتي التطوعية</h6>
-                <div id="activities-list"></div>
-            </div>
-        </section>
+        function calculatePoints(hours, participants) {
+            return (Number(hours) * 10) + (Number(participants) * 5);
+        }
 
-        <!-- 4. Add Activity Section -->
-        <section id="add-activity-section" class="page-section" style="display: none;">
-            <div class="card border-0 shadow-sm p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold m-0">إضافة نشاط تطوعي</h5>
-                    <button class="btn-close" onclick="showSection('dashboard-section')"></button>
-                </div>
-                <form id="add-activity-form">
-                    <div class="mb-3">
-                        <label class="form-label">عنوان النشاط</label>
-                        <input type="text" id="act-title" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">المجال</label>
-                        <select id="act-category" class="form-select" required>
-                            <option value="سياحة وبيئة">سياحة وبيئة</option>
-                            <option value="خدمة مجتمعية">خدمة مجتمعية</option>
-                            <option value="تعليم وتدريب">تعليم وتدريب</option>
-                            <option value="ثقافة وفنون">ثقافة وفنون</option>
-                        </select>
-                    </div>
-                    <div class="row g-2 mb-3">
-                        <div class="col-6">
-                            <label class="form-label">عدد الساعات</label>
-                            <input type="number" id="act-hours" class="form-control" min="1" required>
+        function initApp() {
+            if (currentUser) {
+                document.getElementById('authSection').classList.add('hide');
+                document.getElementById('appSection').classList.remove('hide');
+                updateDashboardData();
+            } else {
+                document.getElementById('authSection').classList.remove('hide');
+                document.getElementById('appSection').classList.add('hide');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('loginName').value.trim();
+            const pin = document.getElementById('loginPin').value.trim();
+
+            if (!name || pin.length !== 4) {
+                alert('الرجاء إدخال الاسم بشكل صحيح ورمز PIN مكون من 4 أرقام.');
+                return;
+            }
+
+            let usersData = JSON.parse(localStorage.getItem('athar_users')) || {};
+            
+            if (usersData[name]) {
+                if (usersData[name].pin !== pin) {
+                    alert('رمز PIN غير صحيح لهذا المستخدم!');
+                    return;
+                }
+                currentUser = usersData[name];
+            } else {
+                currentUser = {
+                    name: name,
+                    pin: pin,
+                    activities: []
+                };
+                usersData[name] = currentUser;
+                localStorage.setItem('athar_users', JSON.stringify(usersData));
+            }
+
+            localStorage.setItem('athar_current_user', JSON.stringify(currentUser));
+            document.getElementById('loginForm').reset();
+            initApp();
+            switchTab('home');
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('athar_current_user');
+            currentUser = null;
+            initApp();
+        }
+
+        function saveUserData() {
+            let usersData = JSON.parse(localStorage.getItem('athar_users')) || {};
+            usersData[currentUser.name] = currentUser;
+            localStorage.setItem('athar_users', JSON.stringify(usersData));
+            localStorage.setItem('athar_current_user', JSON.stringify(currentUser));
+            updateDashboardData();
+        }
+
+        function switchTab(tabId) {
+            const tabs = ['home', 'activities', 'badges', 'profile'];
+            tabs.forEach(t => {
+                document.getElementById('tab' + capitalize(t)).classList.add('hide');
+                const navBtn = document.getElementById('nav' + capitalize(t));
+                if (navBtn) {
+                    navBtn.classList.remove('text-primary');
+                    navBtn.classList.add('text-gray-400');
+                }
+            });
+
+            document.getElementById('tab' + capitalize(tabId)).classList.remove('hide');
+            const activeNav = document.getElementById('nav' + capitalize(tabId));
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-400');
+                activeNav.classList.add('text-primary');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function handleAddActivity(e) {
+            e.preventDefault();
+            const title = document.getElementById('actTitle').value.trim();
+            const date = document.getElementById('actDate').value;
+            const hours = Number(document.getElementById('actHours').value);
+            const participants = Number(document.getElementById('actParticipants').value);
+
+            if (!title || !date || isNaN(hours) || isNaN(participants)) {
+                alert('الرجاء إدخال بيانات صحيحة.');
+                return;
+            }
+
+            const pointsEarned = calculatePoints(hours, participants);
+
+            const newActivity = {
+                id: Date.now().toString(),
+                title,
+                date,
+                hours,
+                participants,
+                points: pointsEarned
+            };
+
+            currentUser.activities.unshift(newActivity);
+            saveUserData();
+
+            document.getElementById('activityForm').reset();
+            alert(`تم إضافة النشاط بنجاح! وحصلت على ${pointsEarned} نقطة.`);
+            switchTab('home');
+        }
+
+        function deleteActivity(id) {
+            if (confirm('هل أنت متأكد من حذف هذا النشاط؟')) {
+                currentUser.activities = currentUser.activities.filter(act => act.id !== id);
+                saveUserData();
+            }
+        }
+
+        function updateDashboardData() {
+            if (!currentUser) return;
+
+            let totalHours = 0;
+            let totalPoints = 0;
+            let totalParticipants = 0;
+
+            currentUser.activities.forEach(act => {
+                totalHours += Number(act.hours);
+                totalPoints += Number(act.points);
+                totalParticipants += Number(act.participants);
+            });
+
+            const levelNum = Math.floor(totalPoints / 100) + 1;
+            const pointsInCurrentLevel = totalPoints % 100;
+            let levelName = "مبتدئ";
+            if (levelNum === 2) levelName = "متطوع نشيط";
+            else if (levelNum === 3) levelName = "قائد مجتمعي";
+            else if (levelNum >= 4) levelName = "سفير العطاء";
+
+            document.getElementById('navUserName').innerText = currentUser.name;
+            document.getElementById('navUserPoints').innerText = totalPoints;
+            document.getElementById('welcomeName').innerText = currentUser.name;
+
+            document.getElementById('statHours').innerText = totalHours;
+            document.getElementById('statPoints').innerText = totalPoints;
+            document.getElementById('statParticipants').innerText = totalParticipants;
+            document.getElementById('statLevel').innerText = levelName;
+
+            document.getElementById('levelProgressText').innerText = `${pointsInCurrentLevel} / 100 نقطة`;
+            document.getElementById('levelProgressBar').style.width = `${pointsInCurrentLevel}%`;
+
+            document.getElementById('profileName').innerText = currentUser.name;
+            document.getElementById('profilePoints').innerText = totalPoints;
+            document.getElementById('profileHours').innerText = totalHours;
+
+            renderRecentActivities();
+            renderFullActivities();
+            renderBadges(totalHours, currentUser.activities.length, totalPoints);
+        }
+
+        function renderRecentActivities() {
+            const container = document.getElementById('recentActivitiesList');
+            if (currentUser.activities.length === 0) {
+                container.innerHTML = `<p class="text-gray-400 text-sm text-center py-4">لا توجد نشاطات مسجلة بعد. أضف نشاطك الأول الآن!</p>`;
+                return;
+            }
+
+            let html = '';
+            currentUser.activities.slice(0, 3).forEach(act => {
+                html += `
+                    <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800">
+                        <div>
+                            <h4 class="font-bold text-white text-sm">${act.title}</h4>
+                            <div class="flex items-center gap-4 mt-1 text-xs text-gray-400">
+                                <span><i class="fa-solid fa-calendar text-primary ml-1"></i> ${act.date}</span>
+                                <span><i class="fa-solid fa-clock text-blue-400 ml-1"></i> ${act.hours} ساعات</span>
+                                <span><i class="fa-solid fa-users text-amber-400 ml-1"></i> ${act.participants} مشارك</span>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <label class="form-label">عدد المشاركين</label>
-                            <input type="number" id="act-participants" class="form-control" min="1" required>
+                        <div class="text-left">
+                            <span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full">+${act.points} نقطة</span>
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label">الموقع / الولاية</label>
-                        <input type="text" id="act-location" class="form-control" required>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderFullActivities() {
+            const container = document.getElementById('fullActivitiesList');
+            if (currentUser.activities.length === 0) {
+                container.innerHTML = `<p class="text-gray-400 text-sm text-center py-6">قائمة النشاطات فارغة.</p>`;
+                return;
+            }
+
+            let html = '';
+            currentUser.activities.forEach(act => {
+                html += `
+                    <div class="bg-gray-900 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border border-gray-800">
+                        <div>
+                            <h4 class="font-bold text-white">${act.title}</h4>
+                            <div class="flex flex-wrap items-center gap-4 mt-2 text-xs text-gray-400">
+                                <span><i class="fa-solid fa-calendar text-primary ml-1"></i> ${act.date}</span>
+                                <span><i class="fa-solid fa-clock text-blue-400 ml-1"></i> ${act.hours} ساعات</span>
+                                <span><i class="fa-solid fa-users text-amber-400 ml-1"></i> ${act.participants} مشارك</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                            <span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full">+${act.points} نقطة</span>
+                            <button onclick="deleteActivity('${act.id}')" class="text-red-400 hover:text-red-300 p-2 text-sm transition" title="حذف النشاط">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-teal w-100 py-2 fw-bold">تسجيل النشاط وإحساب الأثر</button>
-                </form>
-            </div>
-        </section>
+                `;
+            });
+            container.innerHTML = html;
+        }
 
-    </main>
+        function renderBadges(totalHours, activityCount, totalPoints) {
+            const container = document.getElementById('badgesGrid');
+            
+            const badgesConfig = [
+                { id: 'b1', title: 'خطوة البداية', desc: 'أضف نشاطك التطوعي الأول', icon: 'fa-shoe-prints', unlocked: activityCount >= 1 },
+                { id: 'b2', title: 'صديق المجتمع', desc: 'سجل أكثر من 10 ساعات تطوع', icon: 'fa-handshake-angle', unlocked: totalHours >= 10 },
+                { id: 'b3', title: 'صانع الأثر', desc: 'اجمع أكثر من 100 نقطة إجمالية', icon: 'fa-award', unlocked: totalPoints >= 100 },
+                { id: 'b4', title: 'قائد المبادرات', desc: 'سجل أكثر من 5 نشاطات تطوعية', icon: 'fa-flag', unlocked: activityCount >= 5 },
+                { id: 'b5', title: 'نجم التطوع', desc: 'اجمع أكثر من 300 نقطة', icon: 'fa-star', unlocked: totalPoints >= 300 },
+                { id: 'b6', title: 'بطل الإنسانية', desc: 'أتمم أكثر من 50 ساعة تطوع', icon: 'fa-heart-pulse', unlocked: totalHours >= 50 }
+            ];
 
-    <!-- Bootstrap & App Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/app.js"></script>
+            let html = '';
+            badgesConfig.forEach(badge => {
+                const statusClass = badge.unlocked ? 'bg-cardBg border-primary/50 text-white shadow-lg shadow-primary/10' : 'bg-gray-900/50 border-gray-800 text-gray-500 opacity-60';
+                const iconColor = badge.unlocked ? 'text-primary bg-primary/20' : 'text-gray-600 bg-gray-800';
+
+                html += `
+                    <div class="p-5 rounded-2xl border ${statusClass} flex items-center gap-4 transition">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl ${iconColor}">
+                            <i class="fa-solid ${badge.icon}"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h4 class="font-bold text-sm">${badge.title}</h4>
+                                ${badge.unlocked ? '<span class="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold">مكتسبة</span>' : '<span class="text-xs text-gray-500">مغلقة</span>'}
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">${badge.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        window.onload = function() {
+            initApp();
+        };
+    </script>
 </body>
 </html>
