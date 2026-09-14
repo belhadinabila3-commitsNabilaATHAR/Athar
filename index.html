@@ -4,43 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أثر - ATHAR | منصة قياس الأثر الحقيقي للعمل التطوعي</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#10B981',
-                        secondary: '#059669',
-                        darkBg: '#0F172A',
-                        cardBg: '#1E293B',
-                        accent: '#34D399'
-                    },
+                    colors: { primary: '#10B981', secondary: '#059669', darkBg: '#0F172A', cardBg: '#1E293B', accent: '#34D399' },
                     fontFamily: { cairo: ['Cairo', 'sans-serif'] }
                 }
             }
         }
     </script>
-
     <style>
         body { font-family: 'Cairo', sans-serif; }
         .hide { display: none !important; }
         .toast { animation: slideIn .3s ease-out, fadeOut .3s ease-in 2.7s forwards; }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeOut { to { opacity: 0; transform: translateY(-15px); } }
     </style>
 </head>
-
 <body class="bg-darkBg text-gray-100 min-h-screen flex flex-col">
-
-    <!-- AUTH -->
     <div id="authSection" class="flex-grow flex items-center justify-center p-4">
         <div class="bg-cardBg p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-700">
             <div class="text-center mb-8">
@@ -50,410 +35,215 @@
                 <h1 class="text-3xl font-extrabold text-white">تطبيق أثر</h1>
                 <p class="text-gray-400 text-sm mt-1">اصنع فرقاً، واترك أثراً في مجتمعك</p>
             </div>
-
             <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-1">الاسم الكامل</label>
-                    <input type="text" id="loginName" required maxlength="60"
-                        placeholder="أدخل اسمك الكريم"
-                        class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                    <input type="text" id="loginName" required maxlength="60" placeholder="أدخل اسمك الكريم" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
                 </div>
-
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-1">رمز الدخول (PIN - 4 أرقام)</label>
-                    <input type="password" id="loginPin" maxlength="4" minlength="4"
-                        pattern="[0-9]{4}" inputmode="numeric" required
-                        placeholder="••••"
-                        class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white text-center tracking-widest text-xl">
+                    <input type="password" id="loginPin" maxlength="4" minlength="4" pattern="[0-9]{4}" inputmode="numeric" required placeholder="••••" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white text-center tracking-widest text-xl">
                 </div>
-
-                <button type="submit"
-                    class="w-full py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/30">
-                    <i class="fa-solid fa-right-to-bracket ml-2"></i>
-                    تسجيل الدخول / إنشاء حساب
+                <button type="submit" class="w-full py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/30">
+                    <i class="fa-solid fa-right-to-bracket ml-2"></i> تسجيل الدخول / إنشاء حساب
                 </button>
-
-                <p class="text-xs text-gray-500 text-center">
-                    النسخة التجريبية تحفظ بياناتك على هذا الجهاز فقط.
-                </p>
             </form>
         </div>
     </div>
-
-    <!-- APP -->
     <div id="appSection" class="hide flex-grow flex flex-col">
-
         <header class="bg-cardBg border-b border-gray-800 sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
                 <div class="flex items-center space-x-3 space-x-reverse">
                     <div class="w-10 h-10 bg-primary/20 text-primary rounded-xl flex items-center justify-center text-xl font-bold">
                         <i class="fa-solid fa-seedling"></i>
                     </div>
-                    <span class="text-xl font-extrabold text-white">
-                        أثر
-                        <span class="text-xs text-primary font-normal bg-primary/10 px-2 py-1 rounded-full">نسخة التحكيم</span>
-                    </span>
+                    <span class="text-xl font-extrabold text-white">أثر <span class="text-xs text-primary font-normal bg-primary/10 px-2 py-1 rounded-full">نسخة التحكيم</span></span>
                 </div>
-
                 <div class="flex items-center space-x-4 space-x-reverse">
                     <div class="text-left hidden sm:block">
                         <div id="navUserName" class="text-sm font-bold text-white">اسم المستخدم</div>
-                        <div class="text-xs text-primary font-semibold">
-                            <span id="navUserPoints">0</span> نقطة
-                        </div>
+                        <div class="text-xs text-primary font-semibold"><span id="navUserPoints">0</span> نقطة</div>
                     </div>
-
-                    <button onclick="handleLogout()"
-                        class="px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-sm transition flex items-center gap-2">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        خروج
+                    <button onclick="handleLogout()" class="px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> خروج
                     </button>
                 </div>
             </div>
         </header>
-
         <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 pb-24">
-
-            <!-- HOME -->
             <div id="tabHome" class="space-y-6">
-
                 <div class="bg-gradient-to-r from-primary/20 to-secondary/10 border border-primary/30 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
-                        <h2 class="text-2xl font-bold text-white mb-1">
-                            أهلاً بك، <span id="welcomeName" class="text-primary"></span>! 👋
-                        </h2>
-                        <p class="text-gray-300 text-sm">
-                            كل ساعة تطوع تقدمها تساهم في بناء مجتمع أفضل. استمر في العطاء!
-                        </p>
+                        <h2 class="text-2xl font-bold text-white mb-1">أهلاً بك، <span id="welcomeName" class="text-primary"></span>! 👋</h2>
+                        <p class="text-gray-300 text-sm">كل ساعة تطوع تقدمها تساهم في بناء مجتمع أفضل. استمر في العطاء!</p>
                     </div>
-
-                    <button onclick="startNewActivity()"
-                        class="px-5 py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/20 flex items-center gap-2">
-                        <i class="fa-solid fa-plus-circle"></i>
-                        إضافة نشاط تطوعي جديد
+                    <button onclick="startNewActivity()" class="px-5 py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/20 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle"></i> إضافة نشاط تطوعي جديد
                     </button>
                 </div>
-
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
                     <div class="bg-cardBg p-5 rounded-2xl border border-gray-800 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-clock"></i>
-                        </div>
+                        <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center text-2xl"><i class="fa-solid fa-clock"></i></div>
                         <div>
                             <div class="text-gray-400 text-xs font-medium">ساعات التطوع</div>
                             <div id="statHours" class="text-2xl font-extrabold text-white mt-1">0</div>
                         </div>
                     </div>
-
                     <div class="bg-cardBg p-5 rounded-2xl border border-gray-800 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-primary/20 text-primary rounded-xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-award"></i>
-                        </div>
+                        <div class="w-12 h-12 bg-primary/20 text-primary rounded-xl flex items-center justify-center text-2xl"><i class="fa-solid fa-award"></i></div>
                         <div>
                             <div class="text-gray-400 text-xs font-medium">إجمالي النقاط</div>
                             <div id="statPoints" class="text-2xl font-extrabold text-white mt-1">0</div>
                         </div>
                     </div>
-
                     <div class="bg-cardBg p-5 rounded-2xl border border-gray-800 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-users"></i>
-                        </div>
+                        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fa-solid fa-users"></i></div>
                         <div>
                             <div class="text-gray-400 text-xs font-medium">إجمالي المشاركين</div>
                             <div id="statParticipants" class="text-2xl font-extrabold text-white mt-1">0</div>
                         </div>
                     </div>
-
                     <div class="bg-cardBg p-5 rounded-2xl border border-gray-800 flex items-center gap-4">
-                        <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-medal"></i>
-                        </div>
+                        <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center text-2xl"><i class="fa-solid fa-medal"></i></div>
                         <div>
                             <div class="text-gray-400 text-xs font-medium">المستوى الحالي</div>
                             <div id="statLevel" class="text-xl font-extrabold text-white mt-1">مبتدئ</div>
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
                     <div class="flex justify-between items-center mb-2 gap-3">
-                        <span class="font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-chart-line text-primary"></i>
-                            التقدم نحو المستوى التالي
-                        </span>
+                        <span class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-chart-line text-primary"></i> التقدم نحو المستوى التالي</span>
                         <span id="levelProgressText" class="text-xs text-primary font-bold">0 / 100 نقطة</span>
                     </div>
-
                     <div class="w-full bg-gray-900 h-3 rounded-full overflow-hidden">
                         <div id="levelProgressBar" class="bg-primary h-full transition-all duration-500" style="width:0%"></div>
                     </div>
-
                     <p id="levelHint" class="text-xs text-gray-500 mt-2"></p>
                 </div>
-
                 <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-primary"></i>
-                            آخر النشاطات المسجلة
-                        </h3>
-
-                        <button onclick="switchTab('activities')"
-                            class="text-xs text-primary hover:underline font-bold">
-                            عرض الكل
-                        </button>
+                        <h3 class="font-bold text-lg text-white flex items-center gap-2"><i class="fa-solid fa-list-check text-primary"></i> آخر النشاطات المسجلة</h3>
+                        <button onclick="switchTab('activities')" class="text-xs text-primary hover:underline font-bold">عرض الكل</button>
                     </div>
-
                     <div id="recentActivitiesList" class="space-y-3"></div>
                 </div>
             </div>
-
-            <!-- ACTIVITIES -->
             <div id="tabActivities" class="hide space-y-6">
-
                 <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
-                    <h3 id="activityFormTitle" class="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-circle-plus text-primary"></i>
-                        إضافة نشاط تطوعي جديد
-                    </h3>
-
-                    <form id="activityForm" onsubmit="handleActivitySubmit(event)"
-                        class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+                    <h3 id="activityFormTitle" class="text-xl font-bold text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-plus text-primary"></i> إضافة نشاط تطوعي جديد</h3>
+                    <form id="activityForm" onsubmit="handleActivitySubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1">اسم النشاط أو المبادرة</label>
-                            <input type="text" id="actTitle" required maxlength="100"
-                                placeholder="مثال: حملة تنظيف الشاطئ"
-                                class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                            <input type="text" id="actTitle" required maxlength="100" placeholder="مثال: حملة تنظيف الشاطئ" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
                         </div>
-
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1">تاريخ النشاط</label>
-                            <input type="date" id="actDate" required
-                                class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                            <input type="date" id="actDate" required class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
                         </div>
-
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1">عدد ساعات التطوع</label>
-                            <input type="number" id="actHours" min="1" max="24" step="0.5" required
-                                placeholder="مثال: 4"
-                                class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                            <input type="number" id="actHours" min="1" max="24" step="0.5" required placeholder="مثال: 4" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
                         </div>
-
                         <div>
                             <label class="block text-sm font-medium text-gray-300 mb-1">عدد المشاركين في النشاط</label>
-                            <input type="number" id="actParticipants" min="1" max="100000" step="1" required
-                                placeholder="مثال: 12"
-                                class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                            <input type="number" id="actParticipants" min="1" max="100000" step="1" required placeholder="مثال: 12" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
                         </div>
-
                         <div class="md:col-span-2 flex gap-3">
-                            <button id="activitySubmitBtn" type="submit"
-                                class="flex-1 py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/20">
-                                <i class="fa-solid fa-check ml-2"></i>
-                                حفظ النشاط وحساب النقاط
+                            <button id="activitySubmitBtn" type="submit" class="flex-1 py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/20">
+                                <i class="fa-solid fa-check ml-2"></i> حفظ النشاط وحساب النقاط
                             </button>
-
-                            <button id="cancelEditBtn" type="button" onclick="cancelEditActivity()"
-                                class="hide px-5 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition">
-                                إلغاء التعديل
-                            </button>
-                        </div>
-
-                        <div class="md:col-span-2 bg-gray-900/60 border border-gray-800 rounded-xl p-3 text-xs text-gray-400">
-                            <i class="fa-solid fa-circle-info text-primary ml-1"></i>
-                            طريقة حساب النقاط: <strong class="text-white">10 نقاط لكل ساعة + 5 نقاط لكل مشارك.</strong>
+                            <button id="cancelEditBtn" type="button" onclick="cancelEditActivity()" class="hide px-5 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition">إلغاء التعديل</button>
                         </div>
                     </form>
                 </div>
-
                 <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-folder-open text-primary"></i>
-                            سجل النشاطات الكامل
-                        </h3>
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-folder-open text-primary"></i> سجل النشاطات الكامل</h3>
                         <span id="activityCountLabel" class="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full font-bold">0 نشاط</span>
                     </div>
-
                     <div id="fullActivitiesList" class="space-y-3"></div>
                 </div>
             </div>
-
-            <!-- BADGES -->
             <div id="tabBadges" class="hide space-y-6">
                 <div class="bg-cardBg p-6 rounded-2xl border border-gray-800">
-                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-medal text-primary"></i>
-                        الشارات والإنجازات
-                    </h3>
-
-                    <p class="text-gray-400 text-sm mb-6">
-                        اكسب الشارات تلقائياً بناءً على ساعاتك ونشاطاتك ونقاط أثرك.
-                    </p>
-
+                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-medal text-primary"></i> الشارات والإنجازات</h3>
                     <div id="badgesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
             </div>
-
-            <!-- PROFILE -->
             <div id="tabProfile" class="hide space-y-6">
-                <div class="bg-cardBg p-8 rounded-2xl border border-gray-800 text-center max-w-lg mx-auto">
-
-                    <div class="w-24 h-24 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-4 text-4xl font-bold border-2 border-primary">
-                        <i class="fa-solid fa-user"></i>
+                <div class="bg-cardBg p-8 rounded-2xl border border-gray-800 max-w-lg mx-auto">
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-4 text-4xl font-bold border-2 border-primary"><i class="fa-solid fa-user"></i></div>
+                        <h2 id="profileName" class="text-2xl font-bold text-white">اسم المستخدم</h2>
+                        <p class="text-gray-400 text-sm mt-1">عضو متطوع في منصة أثر</p>
                     </div>
-
-                    <h2 id="profileName" class="text-2xl font-bold text-white">اسم المستخدم</h2>
-                    <p class="text-gray-400 text-sm mt-1">عضو متطوع في منصة أثر</p>
-
-                    <div class="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-700 text-right">
-                        <div class="bg-gray-900 p-4 rounded-xl">
-                            <div class="text-gray-400 text-xs">مجموع النقاط</div>
-                            <div id="profilePoints" class="text-xl font-bold text-primary mt-1">0</div>
-                        </div>
-
-                        <div class="bg-gray-900 p-4 rounded-xl">
-                            <div class="text-gray-400 text-xs">ساعات الإنجاز</div>
-                            <div id="profileHours" class="text-xl font-bold text-blue-400 mt-1">0</div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 bg-gray-900 p-4 rounded-xl text-right">
-                        <div class="text-gray-400 text-xs">عدد النشاطات</div>
-                        <div id="profileActivities" class="text-xl font-bold text-white mt-1">0</div>
-                    </div>
-
-                    <div class="mt-6">
-                        <button onclick="handleLogout()"
-                            class="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 font-bold rounded-xl transition border border-red-500/20">
-                            تسجيل الخروج من الحساب
-                        </button>
+                    <div class="mt-6 pt-6 border-t border-gray-700">
+                        <form id="profileForm" onsubmit="saveProfile(event)" class="space-y-4 text-right">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">الاسم</label>
+                                <input type="text" id="profileFirstName" required maxlength="40" placeholder="أدخل الاسم" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">اللقب</label>
+                                <input type="text" id="profileLastName" required maxlength="40" placeholder="أدخل اللقب" class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">تاريخ الميلاد</label>
+                                <input type="date" id="profileBirthDate" required class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-1">الصفة</label>
+                                <select id="profileRole" required class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl focus:outline-none focus:border-primary text-white">
+                                    <option value="">اختاري الصفة</option>
+                                    <option value="متطوع">متطوع</option>
+                                    <option value="قائد فريق">قائد فريق</option>
+                                    <option value="منظم نشاطات">منظم نشاطات</option>
+                                    <option value="عضو جمعية">عضو جمعية</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-primary hover:bg-secondary text-white font-bold rounded-xl transition shadow-lg shadow-primary/20">حفظ المعلومات الشخصية</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </main>
-
-        <!-- BOTTOM NAV -->
         <nav class="bg-cardBg border-t border-gray-800 fixed bottom-0 left-0 right-0 z-50">
             <div class="max-w-md mx-auto flex justify-around py-3">
-                <button onclick="switchTab('home')" id="navHome" class="flex flex-col items-center text-primary transition">
-                    <i class="fa-solid fa-house text-xl mb-1"></i>
-                    <span class="text-xs font-bold">الرئيسية</span>
-                </button>
-
-                <button onclick="switchTab('activities')" id="navActivities" class="flex flex-col items-center text-gray-400 hover:text-primary transition">
-                    <i class="fa-solid fa-calendar-plus text-xl mb-1"></i>
-                    <span class="text-xs font-bold">النشاطات</span>
-                </button>
-
-                <button onclick="switchTab('badges')" id="navBadges" class="flex flex-col items-center text-gray-400 hover:text-primary transition">
-                    <i class="fa-solid fa-award text-xl mb-1"></i>
-                    <span class="text-xs font-bold">الشارات</span>
-                </button>
-
-                <button onclick="switchTab('profile')" id="navProfile" class="flex flex-col items-center text-gray-400 hover:text-primary transition">
-                    <i class="fa-solid fa-user text-xl mb-1"></i>
-                    <span class="text-xs font-bold">حسابي</span>
-                </button>
+                <button onclick="switchTab('home')" id="navHome" class="flex flex-col items-center text-primary transition"><i class="fa-solid fa-house text-xl mb-1"></i><span class="text-xs font-bold">الرئيسية</span></button>
+                <button onclick="switchTab('activities')" id="navActivities" class="flex flex-col items-center text-gray-400 hover:text-primary transition"><i class="fa-solid fa-calendar-plus text-xl mb-1"></i><span class="text-xs font-bold">النشاطات</span></button>
+                <button onclick="switchTab('badges')" id="navBadges" class="flex flex-col items-center text-gray-400 hover:text-primary transition"><i class="fa-solid fa-award text-xl mb-1"></i><span class="text-xs font-bold">الشارات</span></button>
+                <button onclick="switchTab('profile')" id="navProfile" class="flex flex-col items-center text-gray-400 hover:text-primary transition"><i class="fa-solid fa-user text-xl mb-1"></i><span class="text-xs font-bold">حسابي</span></button>
             </div>
         </nav>
     </div>
-
-    <!-- TOAST -->
     <div id="toastContainer" class="fixed top-4 left-4 right-4 z-[100] flex flex-col items-center gap-2 pointer-events-none"></div>
-
     <script>
-        let currentUser = null;
-        let editingActivityId = null;
-
-        function loadJSON(key, fallback) {
-            try {
-                const value = localStorage.getItem(key);
-                return value ? JSON.parse(value) : fallback;
-            } catch {
-                return fallback;
-            }
+        let currentUser = null, editingActivityId = null;
+        function loadJSON(k, f) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : f; } catch { return f; } }
+        function saveJSON(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+        function calculatePoints(h, p) { return Math.round((Number(h) * 10) + (Number(p) * 5)); }
+        function escapeHTML(v) { return String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+        function formatDate(d) {
+            if (!d) return '—';
+            const date = new Date(d + 'T00:00:00');
+            return isNaN(date.getTime()) ? d : new Intl.DateTimeFormat('ar-DZ', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
         }
-
-        function saveJSON(key, value) {
-            localStorage.setItem(key, JSON.stringify(value));
+        function showToast(msg, type = 'success') {
+            const c = document.getElementById('toastContainer'), t = document.createElement('div');
+            t.className = `toast pointer-events-auto w-full max-w-md ${type === 'error' ? 'bg-red-500' : 'bg-primary'} text-white border rounded-xl px-4 py-3 shadow-2xl flex items-center gap-3`;
+            t.innerHTML = `<span class="text-sm font-bold">${escapeHTML(msg)}</span>`;
+            c.appendChild(t); setTimeout(() => t.remove(), 3100);
         }
-
-        function calculatePoints(hours, participants) {
-            return Math.round((Number(hours) * 10) + (Number(participants) * 5));
+        function getUsers() { return loadJSON('athar_users', {}); }
+        function normalizeUser(u) {
+            if (!u) return null;
+            u.name = String(u.name || '').trim();
+            u.activities = Array.isArray(u.activities) ? u.activities : [];
+            return u;
         }
-
-        function escapeHTML(value) {
-            return String(value ?? '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return '—';
-            const date = new Date(dateString + 'T00:00:00');
-            if (isNaN(date.getTime())) return dateString;
-
-            return new Intl.DateTimeFormat('ar-DZ', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            }).format(date);
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-
-            const icon = type === 'error'
-                ? 'fa-circle-xmark'
-                : type === 'info'
-                    ? 'fa-circle-info'
-                    : 'fa-circle-check';
-
-            const classes = type === 'error'
-                ? 'bg-red-500/95 border-red-400'
-                : type === 'info'
-                    ? 'bg-blue-500/95 border-blue-400'
-                    : 'bg-primary/95 border-emerald-300';
-
-            toast.className = `toast pointer-events-auto w-full max-w-md ${classes} text-white border rounded-xl px-4 py-3 shadow-2xl flex items-center gap-3`;
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i><span class="text-sm font-bold">${escapeHTML(message)}</span>`;
-
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3100);
-        }
-
-        function getUsers() {
-            return loadJSON('athar_users', {});
-        }
-
-        function normalizeUser(user) {
-            if (!user || typeof user !== 'object') return null;
-            user.name = String(user.name || '').trim();
-            user.activities = Array.isArray(user.activities) ? user.activities : [];
-
-            user.activities = user.activities.map(act => ({
-                id: String(act.id || Date.now() + Math.random()),
-                title: String(act.title || 'نشاط تطوعي'),
-                date: act.date || '',
-                hours: Number(act.hours) || 0,
-                participants: Number(act.participants) || 0,
-                points: calculatePoints(act.hours, act.participants)
-            }));
-
-            return user;
-        }
-
         function initApp() {
             currentUser = normalizeUser(loadJSON('athar_current_user', null));
-
             if (currentUser) {
                 document.getElementById('authSection').classList.add('hide');
                 document.getElementById('appSection').classList.remove('hide');
@@ -464,512 +254,175 @@
                 document.getElementById('appSection').classList.add('hide');
             }
         }
-
         function handleLogin(e) {
             e.preventDefault();
-
             const name = document.getElementById('loginName').value.trim();
             const pin = document.getElementById('loginPin').value.trim();
-
-            if (name.length < 2) {
-                showToast('اكتبي الاسم الكامل بشكل صحيح.', 'error');
-                return;
-            }
-
-            if (!/^\d{4}$/.test(pin)) {
-                showToast('رمز PIN يجب أن يتكون من 4 أرقام بالضبط.', 'error');
-                return;
-            }
-
-            const usersData = getUsers();
-
-            if (usersData[name]) {
-                const existing = normalizeUser(usersData[name]);
-
-                if (existing.pin !== pin) {
-                    showToast('رمز PIN غير صحيح لهذا المستخدم.', 'error');
-                    return;
-                }
-
-                currentUser = existing;
-                showToast('مرحباً بعودتك 👋');
+            if (name.length < 2 || !/^\d{4}$/.test(pin)) { showToast('يرجى التأكد من صحة الاسم ورمز PIN (4 أرقام)', 'error'); return; }
+            let users = getUsers();
+            if (users[name]) {
+                if (users[name].pin !== pin) { showToast('رمز PIN غير صحيح', 'error'); return; }
+                currentUser = normalizeUser(users[name]);
             } else {
-                currentUser = {
-                    name,
-                    pin,
-                    activities: []
-                };
-
-                usersData[name] = currentUser;
-                saveJSON('athar_users', usersData);
-                showToast('تم إنشاء حسابك بنجاح 🌱');
+                currentUser = { name, pin, firstName: '', lastName: '', birthDate: '', role: '', activities: [] };
+                users[name] = currentUser;
+                saveJSON('athar_users', users);
             }
-
             saveJSON('athar_current_user', currentUser);
-            document.getElementById('loginForm').reset();
             initApp();
         }
-
-        function handleLogout() {
-            localStorage.removeItem('athar_current_user');
-            currentUser = null;
-            editingActivityId = null;
-            resetActivityForm();
-            initApp();
-            showToast('تم تسجيل الخروج.', 'info');
-        }
-
+        function handleLogout() { localStorage.removeItem('athar_current_user'); currentUser = null; initApp(); }
         function saveUserData() {
             if (!currentUser) return;
-
-            currentUser = normalizeUser(currentUser);
-
-            const usersData = getUsers();
-            usersData[currentUser.name] = currentUser;
-
-            saveJSON('athar_users', usersData);
+            let users = getUsers();
+            users[currentUser.name] = currentUser;
+            saveJSON('athar_users', users);
             saveJSON('athar_current_user', currentUser);
-
             updateDashboardData();
         }
-
-        function switchTab(tabId) {
-            const tabs = ['home', 'activities', 'badges', 'profile'];
-
-            tabs.forEach(t => {
-                const tab = document.getElementById('tab' + capitalize(t));
-                const navBtn = document.getElementById('nav' + capitalize(t));
-
-                if (tab) tab.classList.add('hide');
-
-                if (navBtn) {
-                    navBtn.classList.remove('text-primary');
-                    navBtn.classList.add('text-gray-400');
-                }
+        function switchTab(id) {
+            ['home', 'activities', 'badges', 'profile'].forEach(t => {
+                document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1))?.classList.add('hide');
+                const btn = document.getElementById('nav' + t.charAt(0).toUpperCase() + t.slice(1));
+                if (btn) { btn.classList.remove('text-primary'); btn.classList.add('text-gray-400'); }
             });
-
-            const target = document.getElementById('tab' + capitalize(tabId));
-            const activeNav = document.getElementById('nav' + capitalize(tabId));
-
-            if (target) target.classList.remove('hide');
-
-            if (activeNav) {
-                activeNav.classList.remove('text-gray-400');
-                activeNav.classList.add('text-primary');
-            }
-
+            document.getElementById('tab' + id.charAt(0).toUpperCase() + id.slice(1))?.classList.remove('hide');
+            const activeBtn = document.getElementById('nav' + id.charAt(0).toUpperCase() + id.slice(1));
+            if (activeBtn) { activeBtn.classList.remove('text-gray-400'); activeBtn.classList.add('text-primary'); }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-        function startNewActivity() {
-            resetActivityForm();
-            switchTab('activities');
-            setTimeout(() => document.getElementById('actTitle').focus(), 200);
-        }
-
-        function resetActivityForm() {
-            const form = document.getElementById('activityForm');
-            if (!form) return;
-
-            form.reset();
-            editingActivityId = null;
-
-            document.getElementById('activityFormTitle').innerHTML =
-                '<i class="fa-solid fa-circle-plus text-primary"></i> إضافة نشاط تطوعي جديد';
-
-            document.getElementById('activitySubmitBtn').innerHTML =
-                '<i class="fa-solid fa-check ml-2"></i> حفظ النشاط وحساب النقاط';
-
-            document.getElementById('cancelEditBtn').classList.add('hide');
-        }
-
-        function cancelEditActivity() {
-            resetActivityForm();
-            showToast('تم إلغاء التعديل.', 'info');
-        }
-
+        function startNewActivity() { switchTab('activities'); }
+        function cancelEditActivity() { document.getElementById('activityForm').reset(); editingActivityId = null; }
         function handleActivitySubmit(e) {
             e.preventDefault();
-
             if (!currentUser) return;
-
             const title = document.getElementById('actTitle').value.trim();
             const date = document.getElementById('actDate').value;
             const hours = Number(document.getElementById('actHours').value);
             const participants = Number(document.getElementById('actParticipants').value);
-
-            if (!title || title.length < 2) {
-                showToast('اكتبي اسم النشاط بشكل صحيح.', 'error');
-                return;
-            }
-
-            if (!date) {
-                showToast('اختاري تاريخ النشاط.', 'error');
-                return;
-            }
-
-            if (!Number.isFinite(hours) || hours < 1 || hours > 24) {
-                showToast('عدد الساعات يجب أن يكون بين 1 و24 ساعة.', 'error');
-                return;
-            }
-
-            if (!Number.isInteger(participants) || participants < 1 || participants > 100000) {
-                showToast('عدد المشاركين يجب أن يكون رقماً صحيحاً أكبر من صفر.', 'error');
-                return;
-            }
-
             const points = calculatePoints(hours, participants);
-
             if (editingActivityId) {
-                const index = currentUser.activities.findIndex(a => String(a.id) === String(editingActivityId));
-
-                if (index === -1) {
-                    showToast('تعذر العثور على النشاط.', 'error');
-                    resetActivityForm();
-                    return;
-                }
-
-                currentUser.activities[index] = {
-                    ...currentUser.activities[index],
-                    title,
-                    date,
-                    hours,
-                    participants,
-                    points
-                };
-
-                saveUserData();
-                resetActivityForm();
-                showToast(`تم تعديل النشاط بنجاح. النقاط: ${points} ⭐`);
+                let act = currentUser.activities.find(a => a.id === editingActivityId);
+                if (act) { act.title = title; act.date = date; act.hours = hours; act.participants = participants; act.points = points; }
+                editingActivityId = null;
             } else {
-                const newActivity = {
-                    id: String(Date.now()),
-                    title,
-                    date,
-                    hours,
-                    participants,
-                    points
-                };
-
-                currentUser.activities.unshift(newActivity);
-                saveUserData();
-                resetActivityForm();
-                showToast(`تمت إضافة النشاط بنجاح وحصلتِ على ${points} نقطة 🎉`);
+                currentUser.activities.unshift({ id: String(Date.now()), title, date, hours, participants, points });
             }
-
-            switchTab('home');
-        }
-
-        function editActivity(id) {
-            if (!currentUser) return;
-
-            const activity = currentUser.activities.find(a => String(a.id) === String(id));
-            if (!activity) {
-                showToast('النشاط غير موجود.', 'error');
-                return;
-            }
-
-            editingActivityId = activity.id;
-
-            document.getElementById('actTitle').value = activity.title;
-            document.getElementById('actDate').value = activity.date;
-            document.getElementById('actHours').value = activity.hours;
-            document.getElementById('actParticipants').value = activity.participants;
-
-            document.getElementById('activityFormTitle').innerHTML =
-                '<i class="fa-solid fa-pen-to-square text-primary"></i> تعديل النشاط التطوعي';
-
-            document.getElementById('activitySubmitBtn').innerHTML =
-                '<i class="fa-solid fa-floppy-disk ml-2"></i> حفظ التعديلات';
-
-            document.getElementById('cancelEditBtn').classList.remove('hide');
-
-            switchTab('activities');
-            setTimeout(() => document.getElementById('actTitle').focus(), 200);
-        }
-
-        function deleteActivity(id) {
-            if (!currentUser) return;
-
-            const activity = currentUser.activities.find(a => String(a.id) === String(id));
-            if (!activity) return;
-
-            const confirmed = confirm(`هل أنت متأكد من حذف النشاط:\n"${activity.title}"؟`);
-
-            if (!confirmed) return;
-
-            currentUser.activities = currentUser.activities.filter(
-                a => String(a.id) !== String(id)
-            );
-
             saveUserData();
-            showToast('تم حذف النشاط بنجاح.', 'info');
+            document.getElementById('activityForm').reset();
+            switchTab('home');
+            showToast('تم حفظ النشاط بنجاح 🎉');
         }
-
+        function deleteActivity(id) {
+            currentUser.activities = currentUser.activities.filter(a => a.id !== id);
+            saveUserData();
+            showToast('تم حذف النشاط', 'info');
+        }
+        function editActivity(id) {
+            let act = currentUser.activities.find(a => a.id === id);
+            if (!act) return;
+            editingActivityId = id;
+            document.getElementById('actTitle').value = act.title;
+            document.getElementById('actDate').value = act.date;
+            document.getElementById('actHours').value = act.hours;
+            document.getElementById('actParticipants').value = act.participants;
+            switchTab('activities');
+        }
         function getStats() {
-            let totalHours = 0;
-            let totalPoints = 0;
-            let totalParticipants = 0;
-
-            currentUser.activities.forEach(act => {
-                totalHours += Number(act.hours) || 0;
-                totalParticipants += Number(act.participants) || 0;
-                totalPoints += calculatePoints(act.hours, act.participants);
-            });
-
-            return {
-                totalHours,
-                totalPoints,
-                totalParticipants,
-                activityCount: currentUser.activities.length
-            };
+            let h = 0, p = 0, parts = 0;
+            currentUser.activities.forEach(a => { h += Number(a.hours); parts += Number(a.participants); p += Number(a.points); });
+            return { h, p, parts, count: currentUser.activities.length };
         }
-
-        function getLevel(points) {
-            if (points >= 300) {
-                return {
-                    name: 'سفير العطاء',
-                    current: points - 300,
-                    next: null,
-                    progress: 100
-                };
-            }
-
-            if (points >= 200) {
-                return {
-                    name: 'قائد مجتمعي',
-                    current: points - 200,
-                    next: 300,
-                    progress: points - 200
-                };
-            }
-
-            if (points >= 100) {
-                return {
-                    name: 'متطوع نشيط',
-                    current: points - 100,
-                    next: 200,
-                    progress: points - 100
-                };
-            }
-
-            return {
-                name: 'مبتدئ',
-                current: points,
-                next: 100,
-                progress: points
-            };
+        function getLevel(p) {
+            if (p >= 300) return { name: 'سفير العطاء', current: p - 300, next: null };
+            if (p >= 200) return { name: 'قائد مجتمعي', current: p - 200, next: 300 };
+            if (p >= 100) return { name: 'متطوع نشيط', current: p - 100, next: 200 };
+            return { name: 'مبتدئ', current: p, next: 100 };
         }
-
+        function saveProfile(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+            currentUser.firstName = document.getElementById('profileFirstName').value.trim();
+            currentUser.lastName = document.getElementById('profileLastName').value.trim();
+            currentUser.birthDate = document.getElementById('profileBirthDate').value;
+            currentUser.role = document.getElementById('profileRole').value;
+            currentUser.name = `${currentUser.firstName} ${currentUser.lastName}`.trim();
+            saveUserData();
+            showToast('تم حفظ الملف الشخصي ✅');
+        }
         function updateDashboardData() {
             if (!currentUser) return;
-
-            currentUser = normalizeUser(currentUser);
-
-            const stats = getStats();
-            const level = getLevel(stats.totalPoints);
-
+            const stats = getStats(), lvl = getLevel(stats.p);
             document.getElementById('navUserName').innerText = currentUser.name;
-            document.getElementById('navUserPoints').innerText = stats.totalPoints;
+            document.getElementById('navUserPoints').innerText = stats.p;
             document.getElementById('welcomeName').innerText = currentUser.name;
-
-            document.getElementById('statHours').innerText = stats.totalHours;
-            document.getElementById('statPoints').innerText = stats.totalPoints;
-            document.getElementById('statParticipants').innerText = stats.totalParticipants;
-            document.getElementById('statLevel').innerText = level.name;
-
-            if (level.next === null) {
-                document.getElementById('levelProgressText').innerText = 'الحد الأقصى للمستويات 🎉';
-                document.getElementById('levelProgressBar').style.width = '100%';
-                document.getElementById('levelHint').innerText = 'أنت الآن في مستوى سفير العطاء.';
-            } else {
-                document.getElementById('levelProgressText').innerText =
-                    `${level.current} / 100 نقطة`;
-
-                document.getElementById('levelProgressBar').style.width =
-                    `${Math.min(level.progress, 100)}%`;
-
-                document.getElementById('levelHint').innerText =
-                    `تبقى ${100 - level.current} نقطة للوصول إلى المستوى التالي.`;
-            }
-
+            document.getElementById('statHours').innerText = stats.h;
+            document.getElementById('statPoints').innerText = stats.p;
+            document.getElementById('statParticipants').innerText = stats.parts;
+            document.getElementById('statLevel').innerText = lvl.name;
+            document.getElementById('levelProgressText').innerText = `${lvl.current} / 100 نقطة`;
+            document.getElementById('levelProgressBar').style.width = `${Math.min((lvl.current / 100) * 100, 100)}%`;
             document.getElementById('profileName').innerText = currentUser.name;
-            document.getElementById('profilePoints').innerText = stats.totalPoints;
-            document.getElementById('profileHours').innerText = stats.totalHours;
-            document.getElementById('profileActivities').innerText = stats.activityCount;
-            document.getElementById('activityCountLabel').innerText =
-                `${stats.activityCount} ${stats.activityCount === 1 ? 'نشاط' : 'نشاطات'}`;
-
-            renderRecentActivities();
-            renderFullActivities();
-            renderBadges(stats.totalHours, stats.activityCount, stats.totalPoints);
+            document.getElementById('profileFirstName').value = currentUser.firstName || '';
+            document.getElementById('profileLastName').value = currentUser.lastName || '';
+            document.getElementById('profileBirthDate').value = currentUser.birthDate || '';
+            document.getElementById('profileRole').value = currentUser.role || '';
+            renderActivities();
+            renderBadges(stats.h, stats.count, stats.p);
         }
-
-        function activityHTML(act, showActions = false) {
-            const title = escapeHTML(act.title);
-            const date = formatDate(act.date);
-            const hours = Number(act.hours);
-            const participants = Number(act.participants);
-            const points = calculatePoints(hours, participants);
-
-            return `
-                <div class="bg-gray-900 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border border-gray-800">
-                    <div class="min-w-0">
-                        <h4 class="font-bold text-white ${showActions ? '' : 'text-sm'} break-words">${title}</h4>
-                        <div class="flex flex-wrap items-center gap-3 mt-2 text-xs text-gray-400">
-                            <span>
-                                <i class="fa-solid fa-calendar text-primary ml-1"></i>
-                                ${escapeHTML(date)}
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-clock text-blue-400 ml-1"></i>
-                                ${hours} ساعات
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-users text-amber-400 ml-1"></i>
-                                ${participants} مشارك
-                            </span>
+        function renderActivities() {
+            const recentContainer = document.getElementById('recentActivitiesList');
+            const fullContainer = document.getElementById('fullActivitiesList');
+            if (!currentUser.activities.length) {
+                const emptyHTML = '<div class="text-center py-6 text-gray-400 text-sm">لا توجد نشاطات مسجلة بعد.</div>';
+                recentContainer.innerHTML = emptyHTML;
+                fullContainer.innerHTML = emptyHTML;
+                return;
+            }
+            const htmlList = currentUser.activities.map(a => `
+                <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center gap-4 border border-gray-800">
+                    <div>
+                        <h4 class="font-bold text-white text-sm">${escapeHTML(a.title)}</h4>
+                        <div class="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                            <span><i class="fa-solid fa-calendar text-primary ml-1"></i>${formatDate(a.date)}</span>
+                            <span><i class="fa-solid fa-clock text-blue-400 ml-1"></i>${a.hours} س</span>
+                            <span><i class="fa-solid fa-users text-amber-400 ml-1"></i>${a.participants} مشارك</span>
                         </div>
                     </div>
-
-                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                        <span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
-                            +${points} نقطة
-                        </span>
-
-                        ${showActions ? `
-                            <button onclick="editActivity('${escapeHTML(act.id)}')"
-                                class="text-blue-400 hover:text-blue-300 p-2 text-sm transition"
-                                title="تعديل النشاط">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-
-                            <button onclick="deleteActivity('${escapeHTML(act.id)}')"
-                                class="text-red-400 hover:text-red-300 p-2 text-sm transition"
-                                title="حذف النشاط">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        ` : ''}
+                    <div class="flex items-center gap-2">
+                        <span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full">+${a.points}</span>
+                        <button onclick="editActivity('${a.id}')" class="text-blue-400 p-2 text-xs"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteActivity('${a.id}')" class="text-red-400 p-2 text-xs"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
-            `;
+            `).join('');
+            recentContainer.innerHTML = currentUser.activities.slice(0, 3).map(a => `
+                <div class="bg-gray-900 p-3 rounded-xl flex justify-between items-center border border-gray-800">
+                    <span class="font-bold text-white text-sm">${escapeHTML(a.title)}</span>
+                    <span class="bg-primary/20 text-primary text-xs font-bold px-3 py-1 rounded-full">+${a.points}</span>
+                </div>
+            `).join('');
+            fullContainer.innerHTML = htmlList;
         }
-
-        function renderRecentActivities() {
-            const container = document.getElementById('recentActivitiesList');
-
-            if (!currentUser.activities.length) {
-                container.innerHTML = `
-                    <div class="text-center py-6">
-                        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-primary/10 text-primary flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-seedling"></i>
-                        </div>
-                        <p class="text-gray-400 text-sm">لا توجد نشاطات مسجلة بعد.</p>
-                        <p class="text-gray-500 text-xs mt-1">أضف نشاطك الأول لتبدأ في بناء أثرك.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = currentUser.activities
-                .slice(0, 3)
-                .map(act => activityHTML(act, false))
-                .join('');
-        }
-
-        function renderFullActivities() {
-            const container = document.getElementById('fullActivitiesList');
-
-            if (!currentUser.activities.length) {
-                container.innerHTML = `
-                    <div class="text-gray-400 text-sm text-center py-8">
-                        <i class="fa-solid fa-folder-open text-3xl mb-3 text-gray-600"></i>
-                        <p>قائمة النشاطات فارغة.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = currentUser.activities
-                .map(act => activityHTML(act, true))
-                .join('');
-        }
-
-        function renderBadges(totalHours, activityCount, totalPoints) {
-            const container = document.getElementById('badgesGrid');
-
+        function renderBadges(h, count, p) {
             const badges = [
-                {
-                    title: 'خطوة البداية',
-                    desc: 'أضف نشاطك التطوعي الأول',
-                    icon: 'fa-shoe-prints',
-                    unlocked: activityCount >= 1
-                },
-                {
-                    title: 'صديق المجتمع',
-                    desc: 'سجل 10 ساعات تطوع أو أكثر',
-                    icon: 'fa-handshake-angle',
-                    unlocked: totalHours >= 10
-                },
-                {
-                    title: 'صانع الأثر',
-                    desc: 'اجمع 100 نقطة أو أكثر',
-                    icon: 'fa-award',
-                    unlocked: totalPoints >= 100
-                },
-                {
-                    title: 'قائد المبادرات',
-                    desc: 'سجل 5 نشاطات تطوعية أو أكثر',
-                    icon: 'fa-flag',
-                    unlocked: activityCount >= 5
-                },
-                {
-                    title: 'نجم التطوع',
-                    desc: 'اجمع 300 نقطة أو أكثر',
-                    icon: 'fa-star',
-                    unlocked: totalPoints >= 300
-                },
-                {
-                    title: 'بطل الإنسانية',
-                    desc: 'أتمم 50 ساعة تطوع أو أكثر',
-                    icon: 'fa-heart-pulse',
-                    unlocked: totalHours >= 50
-                }
+                { title: 'خطوة البداية', desc: 'أضف نشاطك الأول', icon: 'fa-shoe-prints', unlocked: count >= 1 },
+                { title: 'صديق المجتمع', desc: 'سجل 10 ساعات', icon: 'fa-handshake-angle', unlocked: h >= 10 },
+                { title: 'صانع الأثر', desc: 'اجمع 100 نقطة', icon: 'fa-award', unlocked: p >= 100 },
+                { title: 'قائد المبادرات', desc: 'سجل 5 نشاطات', icon: 'fa-flag', unlocked: count >= 5 }
             ];
-
-            container.innerHTML = badges.map(badge => {
-                const statusClass = badge.unlocked
-                    ? 'bg-cardBg border-primary/50 text-white shadow-lg shadow-primary/10'
-                    : 'bg-gray-900/50 border-gray-800 text-gray-500 opacity-60';
-
-                const iconColor = badge.unlocked
-                    ? 'text-primary bg-primary/20'
-                    : 'text-gray-600 bg-gray-800';
-
-                return `
-                    <div class="p-5 rounded-2xl border ${statusClass} flex items-center gap-4 transition">
-                        <div class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl ${iconColor}">
-                            <i class="fa-solid ${badge.icon}"></i>
-                        </div>
-
-                        <div>
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <h4 class="font-bold text-sm">${badge.title}</h4>
-                                ${badge.unlocked
-                                    ? '<span class="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold">مكتسبة</span>'
-                                    : '<span class="text-xs text-gray-500">مغلقة</span>'}
-                            </div>
-                            <p class="text-xs text-gray-400 mt-1">${badge.desc}</p>
-                        </div>
+            document.getElementById('badgesGrid').innerHTML = badges.map(b => `
+                <div class="p-4 rounded-xl border ${b.unlocked ? 'bg-cardBg border-primary/50 text-white' : 'bg-gray-900/50 border-gray-800 text-gray-500 opacity-60'} flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl ${b.unlocked ? 'text-primary bg-primary/20' : 'text-gray-600 bg-gray-800'}">
+                        <i class="fa-solid ${b.icon}"></i>
                     </div>
-                `;
-            }).join('');
+                    <div>
+                        <h4 class="font-bold text-sm">${b.title}</h4>
+                        <p class="text-xs text-gray-400">${b.desc}</p>
+                    </div>
+                </div>
+            `).join('');
         }
-
         window.onload = initApp;
     </script>
 </body>
